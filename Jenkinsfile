@@ -2,68 +2,59 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "realestate-backend"
-        CONTAINER_NAME = "realestate-backend-container"
-        PORT = "9001"
+        IMAGE_NAME = "realestate-frontend"
+        CONTAINER_NAME = "frontend-container"
+        PORT = "3000"
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/anupkumarbits/realestate-backend.git'
+                git credentialsId: 'github-token',
+                url: 'https://github.com/your-repo/frontend.git'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Install') {
             steps {
                 sh 'npm install'
             }
         }
 
-        stage('Test') {
+        stage('Build') {
             steps {
-                sh 'echo "No tests added yet"'
-                // future: npm test
+                sh 'npm run build'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Docker Build') {
             steps {
                 sh 'docker build -t $IMAGE_NAME .'
             }
         }
 
-        stage('Stop Old Container') {
+        stage('Deploy') {
             steps {
-                sh '''
+                sh """
                 docker stop $CONTAINER_NAME || true
                 docker rm $CONTAINER_NAME || true
-                '''
-            }
-        }
 
-        stage('Run Container') {
-            steps {
-                sh '''
                 docker run -d \
                 --name $CONTAINER_NAME \
-                -p $PORT:5000 \
-                --env-file .env \
+                -p $PORT:80 \
                 $IMAGE_NAME
-                '''
+                """
             }
         }
-
     }
 
     post {
         success {
-            echo "Pipeline SUCCESS 🚀 Backend deployed"
+            echo "Frontend deployed successfully 🚀"
         }
         failure {
-            echo "Pipeline FAILED ❌ Check logs"
+            echo "Frontend pipeline failed ❌"
         }
     }
 }
