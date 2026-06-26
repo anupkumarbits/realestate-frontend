@@ -5,7 +5,7 @@ import App from './App.jsx'
 import axios from 'axios'
 
 // Set default base URL for axios
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://192.168.222.129:9001';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
