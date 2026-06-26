@@ -12,7 +12,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git credentialsId: 'github-token',
-                url: 'https://github.com/your-repo/frontend.git'
+                url: 'https://github.com/anupkumarbits/realestate-frontend.git'
             }
         }
 
