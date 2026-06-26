@@ -9,11 +9,11 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/api': {
-          target: env.VITE_API_URL || 'http://localhost:5000',
+          target: env.VITE_API_URL || 'http://192.168.222.129:9001',
           changeOrigin: true,
         },
         '/uploads': {
-          target: env.VITE_API_URL || 'http://localhost:5000',
+          target: env.VITE_API_URL || 'http://192.168.222.129:9001',
           changeOrigin: true,
         }
       }
